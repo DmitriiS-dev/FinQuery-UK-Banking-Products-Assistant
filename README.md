@@ -1,5 +1,8 @@
 # FinQuery -  UK Banking Products Assistant
 
+## Short Description:
+FinQuery is an AI-powered financial assistant that helps users find the latest bank products and get personalised insights. It uses a Faker-generated dataset, AQL queries, and AI agents to retrieve and summarise data while considering chat history for context. Built with React, FastAPI, ArangoDB, and powered by Groq API. 🚀
+
 ## Installation Guide:
 - The Front-end, Back-end, and Database all need to be running at the same time for the application to function correctly.
 

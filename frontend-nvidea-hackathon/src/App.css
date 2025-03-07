@@ -1,0 +1,96 @@
+/* Base styles */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+:root {
+  --primary: #0a3d62;
+  --primary-light: #1e5f8c;
+  --primary-dark: #072a43;
+  --secondary: #2ecc71;
+  --secondary-light: #3ee383;
+  --secondary-dark: #25a25a;
+  --accent: #f1c40f;
+  --accent-light: #f4d03f;
+  --accent-dark: #d4ac0d;
+
+  --neutral-100: #f8f9fa;
+  --neutral-200: #e9ecef;
+  --neutral-300: #dee2e6;
+  --neutral-400: #ced4da;
+  --neutral-500: #adb5bd;
+  --neutral-600: #6c757d;
+  --neutral-700: #495057;
+  --neutral-800: #343a40;
+  --neutral-900: #212529;
+
+  /* UI elements */
+  --background: #f8f9fa;
+  --card-bg: #ffffff;
+  --border: #dee2e6;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --radius: 8px;
+}
+
+/* Main app container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--background);
+  color: var(--neutral-800);
+}
+
+/* Content wrapper (everything below header) */
+.content-wrapper {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  height: calc(100vh - 70px);
+  width: 100%;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--background);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+
+  .main-content {
+    padding: 16px;
+  }
+}
+
+/* Added for larger screens */
+@media (min-width: 1400px) {
+  .main-content {
+    padding: 32px;
+  }
+}

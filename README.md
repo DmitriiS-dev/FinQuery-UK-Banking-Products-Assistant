@@ -13,4 +13,12 @@
 
 
 ## Database Setup:
-- Run the Docker container
+- 1. Create a virtual environment
+`python -m venv venv`
+- 2. Activate it
+`.\venv\Scripts\activate`
+- 3. Install Python dependencies
+`pip install -r requirements.txt`
+- 4. Run the FastAPI server
+`uvicorn main:app --reload`
+

@@ -26,12 +26,11 @@ def support_agent_for_agent_2(error: str, failed_query: str, api_key: str):
         🔹 You are an expert in **ArangoDB AQL queries**. 
         Your task is to **fix a previously failed AQL query** based on the given **execution error**.
         
+        THIS IS VERY IMPORTANT: - YOU WILL RETURN only the raw AQL query** - no code blocks, quotes, or explanations
+        
         **🔴 CRITICAL CONSTRAINTS:**  
         - **NEVER retrieve entire collections without filters** - this causes system overload
-        - **ALWAYS use indexed fields** (`_key`, `type`, `institution`) in FILTER clauses when possible
-        - **LIMIT results** to a reasonable number (default: 100) unless specified otherwise
-        - **RETURN only the raw AQL query** - no code blocks, quotes, or explanations
-        
+        - **ALWAYS use indexed fields** ( `type`, `institution`) in FILTER clauses when possible        
         **🛠 ERROR MESSAGE:**  
         
         {error}
@@ -45,53 +44,50 @@ def support_agent_for_agent_2(error: str, failed_query: str, api_key: str):
         ---  
    
         **📊 DATABASE SCHEMA**  
-        **Collection: financial_nodes**
-        | Field | Type | Description | Indexed |
-        |-------|------|-------------|---------|
-        | _key | String | Unique identifier | ✓ |
-        | type | String | Product type (bank, Current Account, Loan, High Yield Savings, ISA, Bond, Credit Card) | ✓ |
-        | institution | String | Financial institution name | ✓ |
-        | interest_rate | Float | Interest rate percentage | ✗ |
-        | fees | Float | Associated fees | ✗ |
-        | rewards | Array | List of benefits/rewards | ✗ |
-        | loan_amount | Integer | Loan amount if applicable | ✗ |
-        
-        **Collection: financial_edges**
-        | Field | Type | Description | Indexed |
-        |-------|------|-------------|---------|
-        | _from | String | Source node ID | ✓ |
-        | _to | String | Target node ID | ✓ |
-        | relationship | String | Relationship type (offers, related) | ✓ |
-        
-        **🔍 QUERY OPTIMIZATION RULES:**
-        1. Use `FILTER` with indexed fields first
-        2. Apply `LIMIT` to prevent excessive results
-        3. Use `LET` for complex subqueries
-        4. Include `SORT` for ordered results
-        5. Return specific fields instead of entire documents
-        6. Use graph traversals for relationship queries
-        
-        **⚡ PERFORMANCE TIPS:**
-        - Prefer `==` over `IN` for single value comparisons
-        - Use `COLLECT` for aggregations instead of client-side processing
-        - Apply `FILTER` before expensive operations
-        
-        **🔄 ERROR RESOLUTION PRIORITIES:**
-        1. **FUNCTIONALITY OVER OPTIMIZATION** - If any optimization rule causes an error, remove or modify it:
-           - If `LIMIT` causes an error, remove it completely
-           - If `SORT` causes an error, remove the sort clause
-           - If a specific `FILTER` condition causes an error, try alternative syntax or remove it
-           - If `COLLECT` causes an error, use a simpler approach
-        2. **SYNTAX OVER STRUCTURE** - Fix syntax errors first, then address structural issues
-        3. **FIELD EXISTENCE** - Check if referenced fields actually exist in the schema
-        4. **TYPE COMPATIBILITY** - Ensure operations match field data types (string vs. number comparisons)
-        5. **QUERY SIMPLIFICATION** - If complex queries fail, simplify by removing optional clauses
-        
-        **✅ FIXED QUERY (RETURN ONLY THIS):**
+        DATABASE SCHEMA:
+        - **Collection:** `financial_nodes`
+            - **_key** *(String)*: Unique identifier for the financial product.
+            - **type** *(String)*: The type of financial product.
+              - Possible values: `"bank"`, `"Current Account"`, `"Loan"`, `"High Yield Savings"`, `"ISA"`, `"Bond"`, `"Credit Card"`
+            - **institution** *(String)*: The name of the bank or financial institution offering the product.
+                        ["Barclays", "HSBC", "Lloyds Bank", "NatWest", "Santander", "TSB", 
+                "RBS", "Halifax", "Nationwide", "Yorkshire Building Society", 
+                "Coventry Building Society", "Skipton Building Society", "Leeds Building Society", 
+                "Newcastle Building Society", "Principality Building Society", "Monzo", 
+                "Starling Bank", "Revolut", "Atom Bank", "Tandem Bank", "Goldman Sachs (Marcus UK)", 
+                "Close Brothers", "Shawbrook Bank", "Aldermore Bank", "Zopa"]
+            - **interest_rate** *(Float)*: Interest rate associated with the financial product (if applicable).
+            - **fees** *(Float)*: Fees associated with the product.
+            - **rewards** *(List[String])*: A list of benefits/rewards for the product.
+                'Cashback on purchases', 'Travel discounts', 'Airport lounge access',
+                'Discounted travel insurance', 'Exclusive event invites', 'Bonus loyalty points',
+                'Free overdraft protection', 'Higher interest rates on savings', 
+                'Free foreign ATM withdrawals', 'No fees on international transfers', 'Fuel discounts'
+            - **loan_amount** *(Integer)*: The loan amount if applicable.
+
+        - Collection: `financial_edges`
+            - `_from`: Link to a `financial_node` (bank or financial product).
+            - `_to`: Link to another `financial_node` (related financial product).
+            - `relationship`: Relationship type (e.g., "offers", "related", etc.).
         """
 
+        part_two ="""
+        **✅ FIXED QUERY Example (You would only need 1 ):**
+        FOR node IN financial_nodes  
+        FILTER node.type == "ISA"  
+        AND node.account_type IN ["Cash ISA", "Fixed-rate ISA", "Flexible ISA", "Lifetime ISA", "Stocks & Shares ISA"]  
+        RETURN { 
+            institution: node.institution,  
+            product: node._key,  
+            interest_rate: node.interest_rate,  
+            fees: node.fees,  
+            rewards: node.rewards  
+        }
+        """
+
+
         # Use the Groq client to process the query
-        llm_response = llm.invoke(prompt)
+        llm_response = llm.invoke(prompt+part_two)
 
         # Log the full response for debugging
         print(f"Full response from Groq: {llm_response}")

@@ -8,10 +8,9 @@ const ChatManager = ({ chats, setChats, activeChatId, openNewChat }) => {
     <div className="chat-manager">
       {!chats.length ? (
         <div className="empty-state">
-          <h2>Multi-Agent Financial Query System</h2>
+          <h2>UK Banking Products Financial Assistant</h2>
           <p>
-            Ask questions about UK banking products and get personalized recommendations based on your financial needs
-            and goals.
+            Ask questions about UK banking products and get personalised recommendations based on your financial needs.
           </p>
           <button onClick={openNewChat} className="new-chat-btn">
             Start a New Query

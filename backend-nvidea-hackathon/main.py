@@ -62,21 +62,21 @@ def process_query(request: LLMQueryRequest):
     api_key = request.groq_key
     history = request.history
     chat_id = request.chat_id
-
     print(f"query: {query}")
-    print(f"groq: {api_key}")
     print(f"history: {history}")
     print(f"chat_id: {chat_id}")
 
     try:
         # Step 1: Get relevant history based on user query and chat history
-        print("Fetching relevant history...")
-        relevant_history = get_relevant_history(query, chat_id, db)
-        if relevant_history["status"] != 200:
-            print(f"No relevant history found for chat {chat_id}. Continuing without history.")
-            relevant_history_data = history  # If no relevant history, proceed with entire history
-        else:
-            relevant_history_data = relevant_history["data"]
+        # print("Fetching relevant history...")
+        # relevant_history = get_relevant_history(query, chat_id, db)
+        # if relevant_history["status"] != 200:
+        #     print(f"No relevant history found for chat {chat_id}. Continuing without history.")
+        #     relevant_history_data = history
+        # else:
+        #     relevant_history_data = relevant_history["data"]
+
+        relevant_history_data = history
 
         # Step 2: User Query Understanding Agent (Agent 1)
         print("Passing to Agent 1 for user query understanding...")
@@ -123,7 +123,7 @@ def process_query(request: LLMQueryRequest):
                     support_res = support_agent_for_agent_2(str(e), aql_query, api_key)
                     if support_res["status"] == 200:
                         aql_query = support_res["data"]  # Update query with the improved version
-                        print("Support agent improved the query. Retrying...")
+                        print(f"Support Agent Query: |{aql_query}|")
                     else:
                         print(f"Support agent failed to fix the query: {support_res.get('error', 'Unknown error')}")
                 else:

@@ -20,20 +20,19 @@ def agent_1(user_query: str, history: list, api_key: str):
     You have access to the following database schema to help the next agent generate an AQL query. Here is the schema for reference:
 
     DATABASE SCHEMA:
-    - **Collection:** `financial_nodes`
-        - **_key** *(String)*: Unique identifier for the financial product.
-        - **type** *(String)*: The type of financial product.  
-        - **institution** *(String)*: The name of the bank or financial institution offering the product.  
-        - **interest_rate** *(Float)*: Interest rate associated with the financial product (if applicable).
-        - **fees** *(Float)*: Fees associated with the product.
-        - **rewards** *(List[String])*: A list of benefits/rewards for the product.  
-        - **loan_amount** *(Integer)*: The loan amount if applicable.
-        - **term_length** *(Integer)*: The loan or bond term length in years.  
-        - **account_type** *(String)*: The specific account type.  
-          - Possible values:
-            - **Current Accounts:** `"Reward Current Account"`, `"Basic Current Account"`, `"Student Account"`, `"Premium Current Account"`
-            - **ISAs:** `"Cash ISA"`, `"Fixed-rate ISA"`, `"Flexible ISA"`, `"Lifetime ISA"`, `"Stocks & Shares ISA"`
-            - **Other:** `"Standard"`
+        - **Collection:** `financial_nodes`
+            - **_key** *(String)*: Unique identifier for the financial product.
+            - **type** *(String)*: The type of financial product.
+              - Possible values: `"bank"`, `"Current Account"`, `"Loan"`, `"High Yield Savings"`, `"ISA"`, `"Bond"`, `"Credit Card"`
+            - **institution** *(String)*: The name of the bank or financial institution offering the product.
+            - **interest_rate** *(Float)*: Interest rate associated with the financial product (if applicable).
+            - **fees** *(Float)*: Fees associated with the product.
+            - **rewards** *(List[String])*: A list of benefits/rewards for the product.
+                ['Cashback on purchases', 'Travel discounts', 'Airport lounge access',
+                'Discounted travel insurance', 'Exclusive event invites', 'Bonus loyalty points',
+                'Free overdraft protection', 'Higher interest rates on savings', 
+                'Free foreign ATM withdrawals', 'No fees on international transfers', 'Fuel discounts']
+            - **loan_amount** *(Integer)*: The loan amount if applicable.
 
     - **Collection:** `financial_edges`
         - `_from`: Link to a `financial_node` (bank or financial product).
@@ -46,6 +45,8 @@ def agent_1(user_query: str, history: list, api_key: str):
     {history_str}
 
     Based on this information, refine the user query to generate an accurate and useful AQL query that the next agent can use to process the information.
+    
+    THE NEXT AGENT HAS THE EXACT SAME INFORMATION AS DO YOU SO PLEASE DO NOT INCLUDE STUFF FOR THE NEXT AGENT TO FIND OUT - YOU DON'T KNOW SOMETHING - NEXT AGENT WOULDN'T KNOW EITER!!!
     """
 
     try:

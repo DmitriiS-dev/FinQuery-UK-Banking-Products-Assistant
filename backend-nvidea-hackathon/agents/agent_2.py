@@ -20,7 +20,6 @@ def agent_2(refined_query: str, api_key: str):
 
         🔴 IMPORTANT RULES:
         - **DO NOT retrieve the entire database.** Queries that return all data may cause errors.
-        - **Always include a LIMIT statement (e.g., `LIMIT 50`)** to prevent excessive data retrieval.
         - **Prioritize filtering conditions** based on user intent to minimize unnecessary records.
         - **Ensure that queries start with `FOR` and use `FILTER`, `LET`, and `RETURN` appropriately.**
         - ❌ **EXCLUDE all explanations, comments, and formatting hints. ONLY return the raw AQL query.**
@@ -29,41 +28,57 @@ def agent_2(refined_query: str, api_key: str):
         USER QUERY:
         {refined_query}
 
+        **📊 DATABASE SCHEMA**  
         DATABASE SCHEMA:
         - **Collection:** `financial_nodes`
             - **_key** *(String)*: Unique identifier for the financial product.
             - **type** *(String)*: The type of financial product.
               - Possible values: `"bank"`, `"Current Account"`, `"Loan"`, `"High Yield Savings"`, `"ISA"`, `"Bond"`, `"Credit Card"`
             - **institution** *(String)*: The name of the bank or financial institution offering the product.
+                        ["Barclays", "HSBC", "Lloyds Bank", "NatWest", "Santander", "TSB", 
+                "RBS", "Halifax", "Nationwide", "Yorkshire Building Society", 
+                "Coventry Building Society", "Skipton Building Society", "Leeds Building Society", 
+                "Newcastle Building Society", "Principality Building Society", "Monzo", 
+                "Starling Bank", "Revolut", "Atom Bank", "Tandem Bank", "Goldman Sachs (Marcus UK)", 
+                "Close Brothers", "Shawbrook Bank", "Aldermore Bank", "Zopa"]
             - **interest_rate** *(Float)*: Interest rate associated with the financial product (if applicable).
             - **fees** *(Float)*: Fees associated with the product.
             - **rewards** *(List[String])*: A list of benefits/rewards for the product.
+                'Cashback on purchases', 'Travel discounts', 'Airport lounge access',
+                'Discounted travel insurance', 'Exclusive event invites', 'Bonus loyalty points',
+                'Free overdraft protection', 'Higher interest rates on savings', 
+                'Free foreign ATM withdrawals', 'No fees on international transfers', 'Fuel discounts'
             - **loan_amount** *(Integer)*: The loan amount if applicable.
 
         - Collection: `financial_edges`
             - `_from`: Link to a `financial_node` (bank or financial product).
             - `_to`: Link to another `financial_node` (related financial product).
             - `relationship`: Relationship type (e.g., "offers", "related", etc.).
+        
 
         ✅ **RETURN FORMAT** (STRICT)
         - Ensure queries are efficient by applying `FILTER` conditions.
         - Always **return specific attributes** instead of the entire document.
         - **Sort results** where applicable (e.g., by `interest_rate DESC`).
-        - **Use `LIMIT 50`** or another reasonable number to avoid excessive token usage.
         - **Your response MUST contain ONLY the AQL query with no extra words.**
 
-        🚀 **Example Output (Correct Format)**:
-        ```
-        FOR product IN financial_nodes
-          FILTER product.type == "ISA" AND product.interest_rate > 2.5
-          SORT product.interest_rate DESC
-          LIMIT 50
-          RETURN {{ institution: product.institution, type: product.type, interest_rate: product.interest_rate }}
-        ```
         """
+        part_two = """
+                **✅ FIXED QUERY Example (You would only need 1 ):**
+                FOR node IN financial_nodes  
+                FILTER node.type == "ISA"  
+                AND node.account_type IN ["Cash ISA", "Fixed-rate ISA", "Flexible ISA", "Lifetime ISA", "Stocks & Shares ISA"]  
+                RETURN { 
+                    institution: node.institution,  
+                    product: node._key,  
+                    interest_rate: node.interest_rate,  
+                    fees: node.fees,  
+                    rewards: node.rewards  
+                }
+                """
 
         # Use the Groq client to process the query
-        llm_response = llm.invoke(prompt)
+        llm_response = llm.invoke(prompt+part_two)
 
         # Log the full response for debugging
         print(f"Full response from Groq: {llm_response}")

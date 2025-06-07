@@ -38,3 +38,6 @@ username: root
 password: openSesame
 
 
+![logo_hackathon](https://github.com/user-attachments/assets/a930ad52-5499-41cf-b335-67ac2c8584ab)
+
+

@@ -5,6 +5,9 @@
 ## Short Description:
 FinQuery is an AI-powered financial assistant that helps users find the latest bank products and get personalised insights. It uses a Faker-generated dataset, AQL queries, and AI agents to retrieve and summarise data while considering chat history for context. Built with React, FastAPI, ArangoDB, and powered by Groq API. 🚀
 
+## Video Demo:
+https://www.youtube.com/watch?v=bgXbbSBRVgU
+
 ## Installation Guide:
 - The Front-end, Back-end, and Database all need to be running at the same time for the application to function correctly.
 
@@ -42,9 +45,6 @@ password: openSesame
 
 
 <img width="960" alt="ss_1" src="https://github.com/user-attachments/assets/6a0ae144-4176-4b0b-ae5b-0d97c10952fb" />
-
-
-https://www.youtube.com/watch?v=bgXbbSBRVgU
 
 
 

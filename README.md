@@ -1,5 +1,7 @@
 # FinQuery -  UK Banking Products Assistant
 
+![logo_hackathon](https://github.com/user-attachments/assets/a930ad52-5499-41cf-b335-67ac2c8584ab)
+
 ## Short Description:
 FinQuery is an AI-powered financial assistant that helps users find the latest bank products and get personalised insights. It uses a Faker-generated dataset, AQL queries, and AI agents to retrieve and summarise data while considering chat history for context. Built with React, FastAPI, ArangoDB, and powered by Groq API. 🚀
 
@@ -38,6 +40,10 @@ username: root
 password: openSesame
 
 
-![logo_hackathon](https://github.com/user-attachments/assets/a930ad52-5499-41cf-b335-67ac2c8584ab)
+
+<img width="960" alt="ss_1" src="https://github.com/user-attachments/assets/6a0ae144-4176-4b0b-ae5b-0d97c10952fb" />
+
+
+
 
 
